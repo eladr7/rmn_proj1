@@ -1,7 +1,14 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import Head from 'next/head';
+import styles from '../styles/network.module.css';
 
-export default function Home() {
+export default function Network() {
+  const router = useRouter()
+  const { network } = router.query;
+  const { isLoading, isError, data, error } = useQuery('network', () => axios.get('/api/networks/moshe'));
+
   return (
     <div className={styles.container}>
       <Head>
@@ -11,7 +18,8 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to <a href="https://nextjs.org">{network}</a>
+          <div>{ JSON.stringify(data) }</div>
         </h1>
 
         <p className={styles.description}>
